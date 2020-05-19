@@ -1,0 +1,126 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Template</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+    <div class="wrapAll clearfix">
+        <div class="sidebar">
+            <ul>
+                <li><a href="Homepage.html">Main page</a></li>
+                <li><a href="Neutrino%20Theory.html">Neutrino Theory</a></li>
+                <li><a href="EPP%20Design.html">Detector Technology</a></li>
+                <li><a href="Simulation.html">Simulation</a></li>
+                <li><a href="Analyse.html">Analysis</a></li>
+            </ul>
+        </div>
+        <div class="mainsection">
+            <div class="article">
+                <h1>Neutrinos</h1>
+                <p>Neutrinos are the lightest known fundamental particle and a constant source of mystery. Much cutting edge physics research is on the neutrino, and it appears as though its understanding will be critical to physics beyond the standard model.</p>
+                <p>The neutrino's existence was first proposed in 1930 by Wolfgang Pauli, to solve the apparent problem that energy and angular momentum were not conserved in beta decay. By adding a small particle that did not interact to carry away the missing energy and angular momentum, the conservation laws could be recovered. It was initially assumed that neutrinos were massless, the revelation that they might have a mass, no matter how small, came only later. Neutrinos provide the first and only known confirmed departure from the standard model of particle physics by having mass. This leads to many interesting properties that we will discuss.</p>
+                <p>Neutrinos only interact through the weak force, and this has the consequence that they move through space or the earth almost entirely undeterred. This means that we can observe solar and geo neutrinos not only to learn about the neutrino, but also the sun and earth. This is especially helpful when studying distant supernova; neutrinos are able to bring undistorted information about the source. </p>
+
+                <h2>Oscillations</h2>
+                <p>\(\nu_e, \nu_\mu, \nu_\tau\) do not have definite masses but they are a linear combination of \(\nu_1, \nu_2, \nu_3\). \(\nu_1, \nu_2, \nu_3\) are the wave equations which oscillate, their interaction and mixing give rise to the neutrino particle as we know it. They do have definite masses, \(m_1, m_2, m_3\). For brevity we will only consider the interaction of two, but this extrapolates to three.</p>
+                $$\nu_\alpha = \nu_i \cos{\theta_{ij}} + \nu_j \sin{\theta_{ij}}$$
+                $$\nu_\beta = \nu_i \sin{\theta_{ij}} + \nu_j \cos{\theta_{ij}}$$
+                <p>if \(\theta_ij \neq 0\) then \(\nu_i, \nu_j\) have different energies due to different masses and the mixing waves will have different frequencies. This gives rise to a "beats" phenomenon that results in a beam of original \(\nu_\alpha\) developing a \(\nu_\beta\) component. What this means practically is that the beam of neutrinos over time is changing from say entirely electron neutrinos into muon neutrinos.</p>
+                <p>Neutrino oscillation was first proposed by Pontecorvo in 1957, but what tipped physicists off that this was a real phenomenon? This introduces the <i>solar neutrino problem</i>.</p>
+                <p>The Homestake experiment which began in 1968 and continued for over 20 years. They observed solar neutrinos via the reaction of \(\nu_e + ^{37}Cl \rightarrow e^- + ^{37}Ar\). They had a huge tank of \(C_2Cl_4\) which produced argon every few days. It aimed to find the solar neutrino flux in the unit of SNU (solar neutrino unit), which is one capture event per second for every \(10^{36}\) target atoms. The flux was finally determined to be \(2.55 \pm 0.17 \pm 0.18 \enspace SNU\). This is significantly lower than the expected \(7.3 \pm 2.3 \enspace SNU\) predicted from the solar neutrino model. This began the solar neutrino problem. Since, at the time, the only measurement of solar neutrinos were form the Homestake experiment, it was presumed that there might not be a problem and instead this was a discrepancy in uncertainty of calculation, measurement or both. However, later experiments of SAGE, GALLAX, Kamiokande and Super-Kamiokande have confirmed said deficit. Finally, SNO was able to confirm that the discrepancy in the solar neutrino problem is due to neutrino oscillation. They did this by having a detector sensitive to all types of neutrinos. However, it was also noted that 1/3 of electron neutrinos had turned into mu or tau neutrinos before getting to the earth (although it was not possible to determine which due to "lepton universality"). Not only did this explain away the solar neutrino problem, but also explained why it became a problem in the first place.</p>
+                <p>Atmospheric neutrinos have also been studied for oscillations. The Super-Kamiokande experiment by looking at atmospheric neutrinos. The work lead to a Nobel Prize. Super-Kamikande is a very large detector located deep underground, to give shielding from background events. It has inner and outer detectors, with over 12,000 photomultiplier tubes (PMTs) and over 50,000 tons of water.</p>
+                <p>Atmospheric neutrinos are produced from the interaction of cosmic rays and the atmosphere. They are produced by \(\pi^+ \rightarrow \mu^+ + \nu_\mu\) followed by \(\mu^+ \rightarrow e^+ + \bar{\nu}_\mu + \nu_e\). There is two muon neutrinos for every electron neutrino. When neutrinos of over 1 GeV interact with nuclei, the velocities of the products are greater than the speed of light in water, and therefore light is emitted in a process known as Cherenkov radiation (a sort of sonic boom for light).</p>
+                <p>While we expect 2 \(\nu_\mu\) for every \(\nu_e\) we actually find 1.3 \(\nu_\mu\) for every \(\nu_e\). This suggests that oscillations have taken place. This was confirmed by the fact that the detector can measure the direction of detected neutrinos and study the azimuthal dependence of the effect. This means we can compare neutrinos that were produced around the world.</p>
+                $$P(\nu_\alpha \rightarrow \nu_\beta) = \sin^2{2 \theta} \sin^2{1.27 \frac{L}{E_\nu} \Delta m^2}$$
+                <p>Is the probability of a neutrino changing flavor due to oscillation, where \(\theta\) is the mixing angle \(L\) is the distance from the neutrino source (in KM), \(E_\nu\) is the energy of the neutrino (in GeV) and \(\Delta m^2\) is the difference of mass squares. We can clearly see that the distance from a source has an impact on the neutrino oscillation, so being able to measure neutrinos from directly above and from the other side of the earth is very valuable (remember that neutrinos can easily travel through the earth while other particles are unlikely to penetrate that far).</p>
+                <p></p>
+
+                <h2>Mass</h2>
+                <p>Neutrinos have a tiny mass, so small it is difficult to comprehend. They are excessively difficult to measure, and the mass is still not known, nor the "mass hierarchy". The standard model currently predicts neutrinos to be massless (and they were thought to be for some time), but this makes certain fundamental properties of neutrinos impossible, such as oscillation. While the neutrino states themselves (\(\nu_e, \nu_\mu, \nu_\tau\)) do not have mass, the underlying states of \(\nu_1, \nu_2, \nu_3\) do have masses \(m_1, m_2, m_3\). Because of the funky way that quantum mechanics works, a measurement of the mass of any neutrino could return either \(m_1, m_2, m_3\). Neutrino experiments are only sensitive to the mass of the square differences (\(\Delta m_{ij}^2 = m_i^2 - m_j^2)\). At current, we have \(\Delta m^2_{21} \approx 7.6 \times 10^{-5} \enspace eV^2\) and \(\mid \Delta m^2_{31} \mid \approx 2.5 \times 10^{-3} \enspace eV^2\). Notice that we only have the magnitude of \(m^2_{31}\), and not the sign. This is because atmospheric mass splitting is only measured by neutrino oscillations in a vacuum, which only depends on the absolute value.</p>
+                <div class="articleRight" style='max-width: 60%'>
+                    <div class="articleRightInner">
+                        <img src="img/Mass_Hierarchy.PNG" style='width:100%' alt="Neutrino Mass Hierarchy" />
+                    </div>
+                    Two mass hierarchy schemes. Normal ordering on the left, and inverted ordering on the right. Probability of finding a neutrino flavour in a given mass eigenstate. There is a dependence on the CP violating phase represented. From Pablo F. de Salas et al.
+                </div>
+
+                <p>Since we have the magnitude and sign of \(\Delta m^2_{21}\), but only the magnitude of \(\Delta m^2_{32}\), there are two possible solutions to the mass hierarchy problem. These are the normal mass hierarchy of \(m_3 > m_2 > m_1\) or the inverted mass hierarchy of \(m_2 > m_1 > m_3\). While there has been a mild experimental preference for the normal mass ordering, more recent data from Super-Kamiokande has placed a strong favour for the normal mass ordering: but be careful, it has yet to be proven. </p>
+                <p>At least one neutrino has a mass above \(\sqrt{\Delta^2_{21}} \approx 8 \enspace meV\) and at least one of those two has a mass above \(\sqrt{\mid \Delta^2_{31} \mid} \approx 50 \enspace meV\). There is also a lower bound on the sum of neutrino masses (\(\sum m_\nu\)) of 0.06 eV for normal mass ordering and 0.1 eV for inverted mass ordering. Notice that we have two possible ways to find the mass ordering, either find the sign of \(\Delta m^2_{32}\) or determine if the minimum sum mass is below or above 0.1 eV.</p>
+
+                <h2>Dirac vs Majorana Particle</h2>
+                <p>It is possible for a small number of elements to undergo a neutrinoless double \(\beta\) decay in the process</p>
+
+                $$(Z, A) \rightarrow (Z + 2, A) + 2e^-,$$
+
+                <p>however, this is only possible if the neutrino is its own antiparticle (Majorana neutrino). Dirac neutrinos are forbidden as it violates lepton number conservation. Double $\beta$ decay has been observed since 1987, and can only occur if single $\beta$ decay is forbidden. A neutrinoless double $\beta$ decay has not yet been observed, but SNO+ hopes to observe one (assuming that the neutrino is Majorana).</p>
+
+                <p>Neutrinoless double \(\beta\) decay can be distinguished from double \(\beta\) decay since the electrons will not have a continuous energy spectra, but rather have a single peak; since there is no other particle to take away the energy.</p>
+
+                <p>There is a significant problem with neutrinoless double \(\beta\) decay being that it has a very long expected half life. For example, the estimated half life of \(^{130}Te\) which is being used in the SNO+ detector is over \(9 \times 10^{25}\) years.</p>
+
+                <h2>Dark Matter, Early Universe and Physics Beyond the Standard Model</h2>
+
+                <p>The majority of the universe is, surprisingly, not ordinary material that we interact with on a daily basis. The first evidence for this came from galaxy rotation speeds; they spun too fast. Starting from Kepler's third law that</p>
+                $$r \omega^2 = G \frac{M}{r^2}$$
+                <p>where \(r\) is the radius of a galaxy, \(\omega\) is the angular velocity, \(G\) is the gravitational constant, we then notice that \(r\) and \(G\) are essentially fixed; \(G\) is a universal constant and the radius of a galaxy can be determined. So when the measured angular frequency did not agree with what was measured, doubts were cast on the mass of the galaxy - the term "dark matter" was born. It was hypothesised that there was some matter that could be not observed in galaxies (the mass of galaxies was estimated based on the light they gave off).</p>
+
+                <p>Neutrinos are the only known form of dark matter so far, and they are a "hot" form of dark matter: they have high thermal energy (they move very close to the speed of light). However, the current known neutrinos can not account for all dark matter.</p>
+
+                <p>Therefore, a new particle is currently being postualted. This particle is the sterile neutrino, which, in brief, means it only interacts via the gravitational force. This sterile neutrino has been proposed to attempt to answer the following questions:</p>
+
+                <ul>
+                    <li>What is dark matter composed of?</li>
+                    <li>How was dark matter made? How did it come to permeate the universe?</li>
+                    <li>What causes the baryonic asymmetry between matter and anti-matter, leading to the modern matter universe?</li>
+                    <li>Why has a right handed neutrino (or left handed anti-neutrino) not been observed?</li>
+                </ul>
+
+                <p>The matter density of neutrinos when non-relativistic in the universe at large is determined by the sum of neutrino masses given by </p>
+
+                $$\rho_\nu \approx n_\alpha \sum m_i$$
+
+                <p>where \(m_i\) represents the neutrino mass eigenstates and \(n_\alpha\) is the number density of neutrinos given by </p>
+
+                $$n_{alpha} = \frac{6 \zeta(3)}{4 \pi^2} T^3_\nu$$
+
+                <p>where \(\zeta\) represents the interaction strength and \(T_\nu\) represents the decoupling temperature. This sum must have a mass of at least 11.5 eV for conventional neutrinos to be all of dark matter. However, the absolute upper limit on neutrino eigenstate mass sum is 0.15 eV, implying that there is more dark matter to be found. One solution is to postulate the existence of a massive sterile neutrino; if such a particle exists with masses in the keV range, then this would adequately fulfil all dark matter needs.</p>
+
+                <p>Sterile neutrinos may also be able to help solve the "mass puzzle" that \(m_i\) are many orders of magnitude smaller than any other fermion mass. \(\Lambda\) is introduced as a matrix of sterile neutrino masses, it is analogous to \(m_i\), but since the number of sterile neutrinos is unknown it is unlabelled (in principle it can have one entry or more entries than are current known fermions). However, the existence of the mass puzzle and the possibility of the sterile neutrino has lead to the postulation of the "seesaw" mechanism for neutrino masses. This is the idea that neutrino masses are so light because they do not get mass from the Higgs interaction like other fermions but rather interact with the sterile neutrino in some way. The seesaw name is given as an increase in \(\Lambda\) denotes a decrease in \(m_i\).</p>
+
+                <p>The production of sterile neutrinos in the early universe is possible in one of three ways, bearing in mind that they do not feel the weak, strong or EM forces. Firstly they could mix with ordinary neutrinos and actually be produced by the weak interaction during this mixing. Secondly, higher energy states of neutrinos and sterile neutrinos may have different gauge interactions, and if the temperature of the early universe was high enough, sterile neutrinos could have been produced thermally by these new gauge interactions. Finally, sterile neutrinos could have been produced from the decay of heavy particles in the early universe.</p>
+
+
+                <h2>References</h2>
+                <p>B. R. Martin and G. Shaw <i>Particle Physics 3<sup>rd</sup> Edition</i> Wiley, 2008</p>
+                <p>B. R. Matin <i>Nuclear and Particle Physics 2<sup>nd</sup> Edition</i> Wiley, 2009</p>
+                <p>Pablo F. de Salas, Stefano Gariazzo, Olga Mena, Christioph A. Ternes and Mariam Tortola <i>Neutrino Mass Ordering From Oscillations: 2018 Status and Future Prospects</i> Frontiers in Astronomy and Space Sciences, 2018</p>
+                <p>Julien Lesgourgues, Gianpiero Mangano, Gennaro Miele, Sergio Pastor <i>Neutrino Cosmology</i> Cambridge University Press, 2013</p>
+                <p>A. Aurisano, A. Radovic, D. Rocco, A. Himmel, M.D. Messier, E. Niner, G. Pawloski, F. Psihas, A. Sousaa and P. Vahleb <i>A Convolutional Neural Network Neutrino Event Classifier</i> 2016, arXiv:1604.01444v3</p>
+                <p>S. M. Bilenky <i>Neutrino, History of a Unique Particle</i>, 2012, arXiv:1210.3065v1</p>
+                <p>G. Bellini, L. Ludhova, G. Ranucci, F. L. Villante <i>Neutrino Oscillations</i>, Hindawi Advances in High Energy physics, 2014</p>
+                <p>Kenath Arun, S.B. Gudennavar, C. Sivaram <i>Dark Matter, Dark Energy, and Alternative Models: A Review</i> Advances in Space Research, 2017</p>
+                <p>A. B. McDonald <i>SNO and Future Solar Neutrino Experiments</i> Nuclear Physics B, 2013</p>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')
+    </script>
+    <script src="script.js"></script>
+
+
+</body></html>

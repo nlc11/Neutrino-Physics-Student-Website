@@ -1,0 +1,184 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Template</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+    <div class="wrapAll clearfix">
+        <div class="sidebar">
+            <ul>
+                <li><a href="Homepage.html">Main page</a></li>
+                <li><a href="Neutrino%20Theory.html">Neutrino Theory</a></li>
+                <li><a href="EPP%20Design.html">Detector Technology</a></li>
+                <li><a href="Simulation.html">Simulation</a></li>
+                <li><a href="Analyse.html">Analysis</a></li>
+            </ul>
+        </div>
+        <div class="mainsection">
+            <div class="article">
+                <h1>Monte Carlo Techniques</h1>
+                <p>Monte Carlo is a statistics technique that allows us to calculate probabilities and simulate real life events when analytic solutions are too challenging. Instead we use numerical techniques to do the work for us.</p>
+                <p>For a verity of reasons, we will work in R for most of the Monte Carlo sections. RStudio is the recommend IDE for R. It is very simple to install, you only need to install <a href=https://rstudio.com />RStudio</a> and <a href=https://www.r-project.org />R</a>. Both are free. There should be very few problems involved in the installation. R is a relatively simple language to learn, and is used for statistical computing. While R has few applications outside this domain, it is one of the most powerful tools for Monte Carlo techniques. </p>
+
+                <h2>Random Numbers and Transformations</h2>
+                <p>A large part of Monte Carlo techniques is the generation of random numbers. We may want to generate random numbers from any given distribution, but writing a new random number generator from scratch each and every time is cumbersome at best. Instead, we use a fundamental principle from Devroye that any distribution can be made by inverting the CDF. In other words, we only need to generate uniform random numbers between 0 and 1, and obtain the inverse of the CDF for any given function to generate any probability distribution imaginable. For this we shall work in R.</p>
+                <h3>Generating Uniform Random Numbers with IBM RANDU algorithm</h3>
+
+                <p>We want to generate uniformally distributed random numbers between 0 and 1. Once we have this we can transform to any distribution by inverting the CDF.</p>
+                <p>In general, it is not possible to generate <i>truly random</i> numbers, so instead we generate pseudo random numbers. These numbers will follow certain distribution properties (as though we actually generated them from that distribution), but they require a "seed". If the algorithm is run again with the same "seed", then we get the same "random" numbers.</p>
+                $$X_{(i+1)} = 65539 X_i \enspace mod \enspace 2^{31},$$
+                $$U_i = \frac{X_i}{2^{31}}$$
+                <p>Above is the IBM RANDU algorithm. The top line moves from one random seed to the next, the bottom line gives the output random numbers that are uniformly distributed between 0 and 1. </p>
+                <code>x <- as.numeric(as.POSITXct(Sys.time())) <br>
+                        n <- 1000 <br>
+                            nums <- c() <br>
+                                for(i in 0:n){ <br>
+                                &nbsp x <- (65539*x) %% 2**31 <br>
+                                    &nbsp u <- x/(2**31) <br>
+                                        &nbsp nums <- c(nums, u) <br>
+                                            } <br>
+                                            hist(nums)
+                </code>
+                <p>This little code snippet in R implements the RANDU algorithm. As you can see, in R operations like this are very simple, and we get a histogram out of it easily too!</p>
+                <img src="img/RANDU_HIST.png" alt="Histogram of RANDU pseudorandom generated numbers">
+                <p>The output histogram. For something that is pseudorandom and only takes a few lines to make, it is surprisingly uniformly distributed. Note that every time it is run, a slightly different distribution will be obtained.</p>
+
+                <h3>Transformation</h3>
+                <p>For this example we will use the Gumbel distribution, but you could use any distribution with a defined CDF. The Gumbel distribution PDF is defined as</p>
+                $$P = \frac{1}{\beta} e^{-(z+e^{-z})}$$
+                $$where \enspace z=\frac{x-\mu}{\beta}$$
+                <p>We will simplify matters by setting &beta; to 1 and &mu; to 0. Therefore the CDF is</p>
+                $$f(x) = e^{-e^{-x}}$$
+                <p>Inverting this gives</p>
+                $$f(x) = -\ln(-\ln(x))$$
+                <p>Now it is time to put this into R and generate a histogram for the Gumbel Distribution</p>
+
+                <h3>Generating a Gumbel Distribution</h3>
+                <code>gumbel <- c(-log(-log(nums))) <br>
+                        h <- hist(gumbel, 30, probability=TRUE) <br></code>
+                <p>And that is all it takes. The top line transforms our list of uniform random numbers from 0 to 1 to numbers from a Gumbel distribution. The bottom line makes a histogram of this. We assign the histogram to a variable h this time so that we can do more analysis later on. The "30" parameter defines how many bins we want. You can adjust this to change how the histogram looks. The probability variable is set to true so that rather than get a count, we get a probability histogram. Again, this will be useful soon.</p>
+                <img src="img/Gumbel_Hist.png" alt="A histogram of Gumbel probabilities">
+                <p>We can see that we have a pretty good Gumbel distribution now, but how good?</p>
+
+                <h3>How good is our Gumbel distribution?</h3>
+                <p>First let's add an expectation line to our distribution. We can easily do this by</p>
+                <code>xtheory <- seq(-2, 8, 0.01) <br>
+                        ytheory <- c(exp(-(xtheory+exp(-xtheory)))) <br>
+                            lines(xtheory, ytheory,col="purple")
+                </code>
+                <p>xtheory represents a serise of x values that we are going to use. Seq makes a vector that contains all values from -2 to 8, in this case, in steps of 0.01. ytheory is a vector that contain expected probabilites if these pseudorandom values were really pulled from a Gumbel distribution. Lines then adds this line to our distribution.</p>
+                <img src="img/Gumbel_Lines.png" alt="Gumbel distribution with expectation line">
+                <p>That's pretty good, by inspection, but statistically how good is it? Well we can use a &chi; squared test to find out.</p>
+                <code>xbins <- h$mids <br>
+                        ybins <- h$density <br>
+                            yexpect <- c(exp(-(xbins+exp(-xbins)))) <br>
+                                chi <- sum((ybins-yexpect)**2/yexpect) <br>
+                                    print(chi) <br>
+                                    chi0 = chi/(length(xbins)-1) <br>
+                                    print(chi0) <br></code>
+                <p><code>h$mids</code> and <code>h$density</code> are new here. The <code>$</code> is how we get all the values from a column in a table in R. In other words, we return all values from the columns named <i>mids</i> and <i>density</i> from <i>h</i>. <i>Mids</i> is the midpoints of each of the peaks, and <i>density</i> is the value at that point. </p>
+                <p><code>yexpect</code> represents the theoretically expected distribution assuming that we are working with a perfect theoretical Gumbel distribution. A &chiu; squared test tells us how close we are to that. <code>chi</code> represents our chi squared, when I ran this script I got 0.0798. Of course, there is some randomness, so your values may vary. <code>chi0</code> is the reduced &chi; squared. To get this, we need to divide by the number of degrees of freedom, in this case, the number of bins minus one. When I ran this script I got 0.00399.</p>
+                <p>How do we interpret how good this is? Well, the lower &chi; is, the closer our data is to the expectation? How low is low however? In general we want reduced &chi; squared to be around 1, which would give statistically "perfect" data. Of course, our reduced &chi; squared is much smaller than one. If this was a real experiment, we would probably be very suspicious of this data as it is "too good", but here when we want to generate a custom distribution, these very low &chi; values are pleasing.</p>
+                <p> So we can see then that generating any distribution we like is actually pretty simple!</p>
+
+                <h2>Markov Chains</h2>
+                <p>Now we move onto one of the most powerful Monte Carlo techniques we have, Markov Chains. A Markov Chain is a very powerful and frequently used statistical technique that allows us to explore distributions without actually knowing all the mathematical properties by randomly sampling from the distribution</p>
+                <p>Let's say we are an island nation who heavily relies on tourism for the economy. We have three islands, the North Island, West Island and East Island. Tourists move about between these three islands and we want to estimate how many are on each island at any given time to allocate funding for amenities. We don't have the actual numbers, but we do have an accurate survey of where tourists go after visiting an island. The results are:</p>
+                <p>A tourist on North has a 10% chance of staying on North, a 50% chance of going to West, and a 40% chance of going to East</p>
+                <p>A tourist on West has a 30% chance of staying on West, a 20% chance of going to North and a 50% chance of going to East</p>
+                <p>A tourist on East has a 10% chance of staying on East, a 10% chance of going to North and a 80% chance of going to West</p>
+                <p>That's a lot to digest! Let's put this into R and have it help us understand this a little bit better</p>
+                <code>
+                    zones <- c("North", "West" , "East" ) <br>
+                        transition <- matrix(c(0.1, 0.2, 0.1, 0.5, 0.3, 0.8, 0.4, 0.5, 0.1), nrow=3, byrow=T, dimnames=list(zones, zones)) <br>
+                            transition
+                </code>
+                <p>And that gives the following output</p>
+                <img src="img/Matrix.PNG" alt="Matrix of transitions">
+                <p>Not half bad, it's more workable, but maybe we can go one better, and have a really good, intuitive diagram?</p>
+                <code>
+                    install.packages("markovchain")<br>
+                    library(markovchain)<br>
+
+                    McZone <- new("markovchain", stages=zones, byrow=T, transitionMatrix=transition, name="Transitions" ) <br>
+
+                        install.packages("diagram") <br>
+                        library(diagram)<br>
+                        plotmat(transition, pos=c(1,2), lwd=1, box.lwd = 1, cex.txt = 0.5, box.size = 0.1, box.type = "circle", box.prop = 0.5, box.col = "purple", arr.length = 0.1, arr.width = 0.1, self.cex = 0.4, self.shifty = -0.01, self.shiftx = 0.13, main = "Transition Diagram")
+                </code>
+                <p>This produces the following output</p>
+                <img src="img/TransitionDiagram.png" alt="Transition Diagram">
+                <p>This is very intuitive! As a note, the <code>install</code> functions only need to be used once, and you will need to be careful of versions here. If you always use the latest version of R and RStudio, you shouldn't have a problem.</p>
+                <p>Now we have this diagram, it's a good time to talk about what <i>exactly</i> a Markov Chain is. It is a series of events where we move from one state to another, and the system has no memory. All tourists on North have a 10% chance of staying on North, no matter where they were <i>before</i> they got to North. You might think that this is overly simplistic, but it does deliver very powerful results! We then have a "walker" randomly walk around this system a number of times and build a distribution of where that walker ends up. Let's see how to do that.</p>
+                <code>McZone^25</code>
+                <p>That's it! It really is that simple. The output is</p>
+                <img src="img/MCMC.PNG" alt="Solved MCMC Matrix">
+                <p>So, at any given time about 15% of tourists will be on North, 50% on West and 35% on East. <code>McZone^25</code>, makes the walker do 25 steps, which isn't many, but in this case does lead to the steady state conditions. You can try varying this number to see what happens. After a certain number of steps, the distribution will not change significantly, indicating the problem has been "solved". At vary low numbers of steps, we might have the distribution fluctuate, indicating it is not yet solved.</p>
+
+                <h2>Pythia</h2>
+                <p>Now, we want to do some simulation that is closer to particle physics. We will use a really powerful software called Pythia. Pythia can be found at http://home.thep.lu.se/~torbjorn/Pythia.html, and we will be using version 8.2. Download and extract. If you have a Linux machine Pythia is easy to use. If you have a Windows machine we need to take a few steps first. If you have a Mac, I'm told that Pythia works well.</p>
+
+                <h3>Setting Up Windows</h3>
+                <p>There are a couple of ways to go about this with a Windows machine. One is to install Linux so that we dual boot, virtual machine and install a Linux terminal. I'll show you how to install a Linux terminal.</p>
+                <p>If your computer is NOT Windows 10, then the only option available is dual boot.</p>
+                <p>Firstly, your computer needs to be up to date, specifically you need the Fall Creators Update as an absolute minimum. The first thing to do is to go turn on the Linux Subsystem. Go to <b>Control Panel</b> then <b>Programs</b>, then <b>Turn Windows Features On or Off</b>. You will need administrator permission. Check <b>Windows Subsystem for Linux</b>.</p>
+                <p>Then we need to go to the Microsoft store. Searching for Linux gives you a few options to choose from, like Debian or Kali. However, unless you have some prior Linux experience, I would recommend Ubuntu, especially a version with "LTS" in the name. LTS means that it will be supported long term (5 years) and these versions tend to be much more stable, good for beginners. Simply install and restart your computer.</p>
+                <p>Once you open Ubuntu for the first time you will get a screen asking you to make a username and password. This will have nothing to do with your computer's username and password. Just make it whatever you like and make sure you remember them! You will need to use the password A LOT in Ubuntu.</p>
+                <p>First, to give a little tour of the Linux. What we have installed is just a temrinal. This is not a graphical environment, and everything is done through commands. In theory you don't even need a mouse, just a keyboard! <code>cd</code> is the most basic command we have, it let's us move between directories. <code>mkdir</code> let's us make a directory. <code>ls</code> lists everything in a directory and <code>pwd</code> gives you the path to the active directory.</p>
+                <p>So, download and extract Pythia somewhere on your computer. Because I do dual boot I'm putting it on an external hard drive, F. This works just as well in C. Begin by typing <code>ls</code> and pressing enter. You have just run your first Linux command! On my version I have only one folder <code>Ubuntu_Docs</code>. Now type <code>cd /</code>. This will take us to the highest folder. Then do another <code>ls</code>. Hopefully at this point you will see something like this.</p>
+
+                <img src="img/Ubuntu.PNG" alt="Ubuntu Folder Structure">
+
+                <p>A word of advice going forward - do not use spaces in folder or file names. Technically, it is allowed, but it causes many problems later on. Also, the Linux terminal is not like the Windows command line or powershell; everything IS case sensitive.</p>
+                <p>Now, our Windows files are all contained inside the <code>mnt</code> folder. Go ahead and <code>cd</code> into that. Inside are the drives, <code>cd</code> into wherever your Pythia folder is. (If you aren't sure and just put it on your computer, maybe in your Downloads, Desktop or Documents, then it is inside "c"). Carry on using the <code>cd</code> command to navigate to Pythia. Don't forget to use <code>ls</code> to check what is inside the folder and <code>pwd</code> to check where you are if you get lost.</p>
+                <p>Once we are in the Pythia folder type <code>cat README</code>. This will print the contents of the README file to the terminal. There are many options, but we will just use the most basic ones. Begin by typing <code>./configure</code>. This will configure Pythia. Then we need to install something called <code>make</code>. To do this, type <code>sudo apt-get install build-essential g++</code>. Enter your password when it asks. <code>sudo</code> gives root permission, kind of like using administrator permissions on Windows. We use it to install software. This might take some time, but then the commands we need are installed. (Note - you might be asked if you want to proceed with the install at some point, usually pressing enter or typing y). Then just type <code>make</code>. This will build Pythia.</p>
+
+                <h3>Performing simulations</h3>
+                <p>To perform simulation in Pythia, you need to build and then run a file. Let's start with some of the examples that come with Pythia. Begin in the examples folder, and type <code>cat main01.cc</code>, and you will see some C++ code in the terminal. This program is testing an interaction in the Large Hadron Collider (LHC). The output file contains a histogram that shows the number of charged particles in the simulations. So, we run say 100 simulations, and count the number of charged particles in each. Let's run this. In the terminal type <code>make main01</code>, and then type <code>./main01 > Out011</code>. This will compile the file to an executable, and then run it, and then save the output in "Out011". Type <code>cat Out011</code>. You will get a big long list of particle interactions, and then a histogram at the end. So, what have we done? We have estimated a probability distribution, just like Stan Ulam with his playing cards. Calculating the distribution of this histrogram by hand would be just too complicated, so Pythia uses Monte Carlo methods to simulate a particle interaction. We then just count how many charged particles showed up.</p>
+                <p>Let's change some parameters. In Windows, the easiest way to do this is to use an external text editor. Something like Notepad or Notepad++ will suffice here. Open main01.cc, and on line 14 change <code>pythia.readString("Beams:eCM = 8000.");</code> to <code>pythia.readString("Beams:eCM = 13000.");</code>. Now we run the simulation again at 13Tev rather than 8TeV. Let's compile, run and output main01.cc to a file again, this time to Out012. Type use <code>cat</code> again to view the output. You will see that we get a slightly different distribution in the histogram, typically more higher energy events (as we would expect!)</p>
+
+                <img src="img/Hist.PNG" alt="Pythia generated histogram">
+
+                <p>You should hopefully have something like this!</p>
+
+                <h2>References</h2>
+                <p>Roger Eckhardt <i>Stan Ulam, John Von Neumann and the Monte Carlo Method</i> Los Alamos Science, 1987</p>
+                <p>Luc Devroy <i>Non-Uniform Random Variate Generation</i> Springer-Verlag, 1986 (The book is long since out of print but is available from <a href=http://luc.devroye.org/rnbookindex.html>http://luc.devroye.org/rnbookindex.html</a>)</p>
+                <p>M. Donald MacLaren, George Marsaglia <i>Uniform Random Number Generators</i> Journal of the Association for Computing Machinery, 1965</p>
+                <p>J. B. Norris <i>Markov Chains</i> Cambridge University Press, 1997</p>
+                <p>Torbj&ouml;rn Sj&ouml;strand, Stefan Ask, Jesper R. Christiansen, Richard Corke, Nishita Desai, Philip Ilten, Stephen Mrenna, Stefan Prestel, Christine O. Rasmussen, Peter Z. Skands <i>An Introduction to Pythia 8.2</i> 2014, arXiv:1410.3012</p>
+                <p>Glen Cowan <i>Statistical Data Analysis</i> Oxford University Press, 2002</p>
+
+
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')
+
+    </script>
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>
